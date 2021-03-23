@@ -215,6 +215,13 @@ jobs:
         echo "NOTICE=请分配不少于800M的存储容量" >> $GITHUB_ENV
         fi
 
+    - name: 上传.config配置文件在github actions
+      uses: actions/upload-artifact@v2
+      if: steps.organizer.outputs.status == 'success' && env.UPLOAD_CONFIG == 'true'
+      with:
+        name: .config_${{ env.NAME2 }}_${{ env.NAME1 }}_${{ env.date }}
+        path: openwrt/bin/config
+
     - name: Deploy files to server
       uses: easingthemes/ssh-deploy@master
       continue-on-error: true
